@@ -1,13 +1,17 @@
 import pygame as pg
 from pygame.math import Vector2
 
-display_size: Vector2 = Vector2(70,50)
-display_scale: int = 10
+display_size: Vector2 = Vector2(140,100)
+display_scale: int = 5
 
-bracket_size = Vector2(2,8)
-bracket_speed = 20
-bracket_color = "#FFFFFF"
+bracket_size: Vector2 = Vector2(4,16)
+bracket_speed: int = 40
+bracket_color: str = "#FFFFFF"
 
+ball_start_position: Vector2 = display_size / 2
+ball_size: Vector2 = Vector2(4, 4)
+ball_speed: int = 30
+ball_color: str = "#FFFFFF"
 
 display = pg.display.set_mode(display_size * display_scale)
 
@@ -49,13 +53,14 @@ class Bracket:
 
 
 class Ball:
-    def __init__(self, position: Vector2, size: Vector2, speed: int):
+    def __init__(self):
         global display_scale
+        global ball_size
+        global ball_start_position
 
-        self._rect = pg.Rect(position, size)
-        self._drawable_rect = pg.Rect(position * display_scale, size * display_scale)
+        self._rect = pg.Rect(ball_start_position, ball_size)
+        self._drawable_rect = pg.Rect(ball_start_position * display_scale, ball_size * display_scale)
         self._direction = Vector2(1,1)
-        self._speed = 15
 
     @property
     def position(self):
@@ -68,8 +73,15 @@ class Ball:
         self._rect.topleft = new_position
         self._drawable_rect.topleft = new_position * display_scale
 
-    def update_ball(self, delta_time: float):
-        self.position = self._direction * self._speed * delta_time
+    def update(self, delta_time: float):
+        global ball_speed
+        self.position += self._direction * ball_speed * delta_time
+
+    def render(self):
+        global display
+        global ball_color
+
+        pg.draw.rect(display, ball_color, self._drawable_rect)
 
     def collided(self, bracket: Bracket) -> bool:
         return self._rect.colliderect(Bracket.hitbox)
@@ -79,8 +91,9 @@ clock = pg.time.Clock()
 exit = False
 
 player_bracket = Bracket(Vector2(1,1))
+ball = Ball()
 
-objects = [player_bracket]
+objects = [player_bracket, ball]
 
 while not exit:
     delta_time = clock.tick(30)/1000
@@ -97,6 +110,8 @@ while not exit:
         player_bracket.y -= bracket_speed * delta_time
     elif keys[pg.K_DOWN] and not keys[pg.K_UP]:
         player_bracket.y += bracket_speed * delta_time
+
+    ball.update(delta_time)
 
     # render
 
