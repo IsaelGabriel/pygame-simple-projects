@@ -114,6 +114,12 @@ class Ball:
     def invert_direction(self):
         self._direction = Vector2(-self._direction.x, -self._direction.y)
 
+    def set_right(self, new_x):
+        global display_scale
+
+        self._rect.right = new_x
+        self._drawable_rect.right = new_x * display_scale
+
     def reset_ball(self):
         global ball_start_position
 
@@ -161,6 +167,7 @@ while not exit:
     if ball.collided(player_bracket):
         ball.invert_x()
     elif ball.collided(enemy_bracket):
+        ball.set_right(enemy_bracket.position[0])
         ball.invert_x()
 
     ball.update(delta_time)
