@@ -52,7 +52,7 @@ class Bracket:
         return self._rect.centery
     
     @centery.setter
-    def y(self, new_y):
+    def centery(self, new_y):
         global display_scale
         self._rect.centery = new_y
         self._drawable_rect.centery = new_y * display_scale
@@ -150,6 +150,13 @@ while not exit:
         player_bracket.y -= bracket_speed * delta_time
     elif keys[pg.K_DOWN] and not keys[pg.K_UP]:
         player_bracket.y += bracket_speed * delta_time
+
+    # enemy bracket movement
+
+    if enemy_bracket.centery < ball.position[1] + (ball_size[1]/2):
+        enemy_bracket.centery += bracket_speed * delta_time
+    elif enemy_bracket.centery > ball.position[1] + (ball_size[1]/2):
+        enemy_bracket.centery -= bracket_speed * delta_time
 
     if ball.collided(player_bracket):
         ball.invert_x()
