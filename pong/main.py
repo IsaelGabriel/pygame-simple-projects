@@ -131,6 +131,8 @@ while not exit:
 
     # object logic
 
+    # player bracket movement
+
     keys = pg.key.get_pressed()
     
     if keys[pg.K_UP] and not keys[pg.K_DOWN]:
