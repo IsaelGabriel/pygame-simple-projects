@@ -11,7 +11,7 @@ bracket_color = "#FFFFFF"
 
 display = pg.display.set_mode(display_size * display_scale)
 
-class bracket:
+class Bracket:
     def __init__(self, initial_position: Vector2):
         global bracket_size
         global display_scale
@@ -43,11 +43,42 @@ class bracket:
         self._rect.y = new_y
         self._drawable_rect.y = new_y * display_scale
 
+    @property
+    def hitbox(self):
+        return self._rect
+
+
+class Ball:
+    def __init__(self, position: Vector2, size: Vector2, speed: int):
+        global display_scale
+
+        self._rect = pg.Rect(position, size)
+        self._drawable_rect = pg.Rect(position * display_scale, size * display_scale)
+        self._direction = Vector2(1,1)
+        self._speed = 15
+
+    @property
+    def position(self):
+        return self._rect.topleft
+
+    @position.setter
+    def position(self, new_position):
+        global display_scale
+
+        self._rect.topleft = new_position
+        self._drawable_rect.topleft = new_position * display_scale
+
+    def update_ball(self, delta_time: float):
+        self.position = self._direction * self._speed * delta_time
+
+    def collided(self, bracket: Bracket) -> bool:
+        return self._rect.colliderect(Bracket.hitbox)
+
 clock = pg.time.Clock()
 
 exit = False
 
-player_bracket = bracket(Vector2(1,1))
+player_bracket = Bracket(Vector2(1,1))
 
 objects = [player_bracket]
 
