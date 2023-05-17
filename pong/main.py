@@ -60,7 +60,7 @@ class Ball:
 
         self._rect = pg.Rect(ball_start_position, ball_size)
         self._drawable_rect = pg.Rect(ball_start_position * display_scale, ball_size * display_scale)
-        self._direction = Vector2(-1,1)
+        self._direction = Vector2(-1, 0)
 
     @property
     def position(self):
@@ -84,7 +84,7 @@ class Ball:
         pg.draw.rect(display, ball_color, self._drawable_rect)
 
     def collided(self, bracket: Bracket) -> bool:
-        return self._rect.colliderect(Bracket.hitbox)
+        return self._rect.colliderect(bracket.hitbox)
     
     def invert_x(self):
         self._direction *= Vector2(-1, 1)
