@@ -113,10 +113,14 @@ clock = pg.time.Clock()
 
 exit = False
 
-player_bracket = Bracket(Vector2(1,1))
+player_bracket = Bracket(Vector2(1, 1))
 ball = Ball()
 
-objects = [player_bracket, ball]
+enemy_bracket_start_position = Vector2(display_size[0] - bracket_size[0] - 1, 1)
+
+enemy_bracket = Bracket(enemy_bracket_start_position)
+
+objects = [player_bracket, ball, enemy_bracket]
 
 while not exit:
     delta_time = clock.tick(30)/1000
