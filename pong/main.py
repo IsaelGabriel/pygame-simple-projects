@@ -5,7 +5,7 @@ display_size: Vector2 = Vector2(70,50)
 display_scale: int = 10
 
 bracket_size = Vector2(2,8)
-bracket_speed = 5
+bracket_speed = 20
 bracket_color = "#FFFFFF"
 
 
@@ -33,11 +33,23 @@ class bracket:
         global bracket_color
         pg.draw.rect(display, bracket_color, self._drawable_rect)
 
+    @property
+    def y(self):
+        return self._rect.y
+    
+    @y.setter
+    def y(self, new_y):
+        global display_scale
+        self._rect.y = new_y
+        self._drawable_rect.y = new_y * display_scale
+
 clock = pg.time.Clock()
 
 exit = False
 
-objects = []
+player_bracket = bracket(Vector2(1,1))
+
+objects = [player_bracket]
 
 while not exit:
     delta_time = clock.tick(30)/1000
@@ -46,7 +58,21 @@ while not exit:
         if event.type == pg.QUIT:
             exit = True
 
+    # object logic
+
+    keys = pg.key.get_pressed()
+    
+    if keys[pg.K_UP] and not keys[pg.K_DOWN]:
+        player_bracket.y -= bracket_speed * delta_time
+    elif keys[pg.K_DOWN] and not keys[pg.K_UP]:
+        player_bracket.y += bracket_speed * delta_time
+
+    # render
+
     display.fill((0,0,0))
+
+    for obj in objects:
+        obj.render()
 
     pg.display.update()
 
