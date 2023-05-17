@@ -67,11 +67,13 @@ class Ball:
         return self._rect.topleft
 
     @position.setter
-    def position(self, new_position):
+    def position(self, new_position: Vector2):
         global display_scale
 
-        self._rect.topleft = new_position
-        self._drawable_rect.topleft = new_position * display_scale
+        self._rect.x = new_position.x
+        self._rect.y = new_position.y
+        self._drawable_rect.x = new_position.x * display_scale
+        self._drawable_rect.y = new_position.y * display_scale
 
     def update(self, delta_time: float):
         global ball_speed
