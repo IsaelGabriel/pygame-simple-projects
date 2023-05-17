@@ -28,7 +28,19 @@ class Bracket:
     
     @position.setter
     def position(self, new_position: Vector2):
+        global display_size
         global display_scale
+        
+        if new_position[0] < 0:
+            new_position[0] = 0
+        elif new_position[0] + self._rect.width > display_size[0]:
+            new_position[0] = display_size[0] - self._rect.width
+            
+        if new_position[1] < 0:
+            new_position[1] = 0
+        elif new_position[1] + self._rect.height > display_size[1]:
+            new_position[1] = display_size[1] - self._rect.height
+
         self._rect.topleft = new_position
         self._drawable_rect.topleft = new_position * display_scale
     
@@ -43,7 +55,14 @@ class Bracket:
     
     @y.setter
     def y(self, new_y):
+        global display_size
         global display_scale
+
+        if new_y < 0:
+            new_y = 0
+        elif new_y + self._rect.height > display_size[1]:
+            new_y = display_size[1] - self._rect.height
+
         self._rect.y = new_y
         self._drawable_rect.y = new_y * display_scale
 
@@ -53,7 +72,14 @@ class Bracket:
     
     @centery.setter
     def centery(self, new_y):
+        global display_size
         global display_scale
+
+        if new_y < self._rect.height / 2:
+            new_y = self._rect.height / 2
+        elif new_y > display_size[1] - self._rect.height / 2:
+            new_y = display_size[1] - self._rect.height / 2
+
         self._rect.centery = new_y
         self._drawable_rect.centery = new_y * display_scale
 
