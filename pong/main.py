@@ -5,7 +5,7 @@ display_size: Vector2 = Vector2(140,100)
 display_scale: int = 5
 
 bracket_size: Vector2 = Vector2(4,16)
-bracket_speed: int = 40
+bracket_speed: int = 20
 bracket_color: str = "#FFFFFF"
 
 ball_start_position: Vector2 = display_size / 2
