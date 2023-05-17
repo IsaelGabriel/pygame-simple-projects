@@ -85,6 +85,15 @@ class Ball:
 
     def collided(self, bracket: Bracket) -> bool:
         return self._rect.colliderect(Bracket.hitbox)
+    
+    def invert_x(self):
+        self._direction *= Vector2(-1, 1)
+    
+    def invert_y(self):
+        self._direction *= Vector2(1, -1)
+    
+    def invert_direction(self):
+        self._direction *= -1
 
 clock = pg.time.Clock()
 
