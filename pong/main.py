@@ -33,14 +33,11 @@ class bracket:
         global bracket_color
         pg.draw.rect(display, bracket_color, self._drawable_rect)
 
-
-
 clock = pg.time.Clock()
-
 
 exit = False
 
-test_bracket = bracket(Vector2(2,2))
+objects = []
 
 while not exit:
     delta_time = clock.tick(30)/1000
@@ -50,8 +47,6 @@ while not exit:
             exit = True
 
     display.fill((0,0,0))
-
-    test_bracket.render()
 
     pg.display.update()
 
