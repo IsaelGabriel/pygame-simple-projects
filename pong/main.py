@@ -107,7 +107,7 @@ class Ball:
         global ball_start_position
 
         self.position = ball_start_position
-        self._direction = Vector2(1, 1)
+        self.invert_direction()
 
 clock = pg.time.Clock()
 
