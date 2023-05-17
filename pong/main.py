@@ -11,6 +11,7 @@ bracket_color: str = "#FFFFFF"
 ball_start_position: Vector2 = display_size / 2
 ball_size: Vector2 = Vector2(4, 4)
 ball_speed: int = 30
+ball_acceleration: int = 5
 ball_color: str = "#FFFFFF"
 
 display = pg.display.set_mode(display_size * display_scale)
@@ -94,10 +95,12 @@ class Ball:
         global display_scale
         global ball_size
         global ball_start_position
+        global ball_speed
 
         self._rect = pg.Rect(ball_start_position, ball_size)
         self._drawable_rect = pg.Rect(ball_start_position * display_scale, ball_size * display_scale)
         self._direction = Vector2(1, 1)
+        self._speed = ball_speed
 
     @property
     def position(self) -> Vector2:
@@ -111,11 +114,11 @@ class Ball:
         self._drawable_rect.topleft = new_position * display_scale
 
     def update(self, delta_time: float):
-        global ball_speed
+        global ball_acceleration
         global ball_size
         global display_size
 
-        self.position += self._direction * ball_speed * delta_time
+        self.position += self._direction * self._speed * delta_time
 
         if self.position[0] <= 0 or self.position[0] + ball_size.x >= display_size[0]:
             self.reset_ball()
@@ -129,7 +132,13 @@ class Ball:
         pg.draw.rect(display, ball_color, self._drawable_rect)
 
     def collided(self, bracket: Bracket) -> bool:
-        return self._rect.colliderect(bracket.hitbox)
+        collision: bool = self._rect.colliderect(bracket.hitbox)
+        
+        if collision:
+            global ball_acceleration
+            self._speed += ball_acceleration
+        
+        return collision
     
     def invert_x(self):
         self._direction = Vector2(-self._direction.x, self._direction.y)
@@ -148,7 +157,9 @@ class Ball:
 
     def reset_ball(self):
         global ball_start_position
+        global ball_speed
 
+        self._speed = ball_speed
         self.position = ball_start_position
         self.invert_direction()
 
