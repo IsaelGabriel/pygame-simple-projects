@@ -70,13 +70,29 @@ class Ball:
     def position(self, new_position: Vector2):
         global display_scale
 
-        self._rect.x = new_position.x
-        self._rect.y = new_position.y
-        self._drawable_rect.x = new_position.x * display_scale
-        self._drawable_rect.y = new_position.y * display_scale
+        self._rect.topleft = new_position
+        self._drawable_rect.topleft = new_position * display_scale
+
+    @property
+    def x(self):
+        return self._rect.x
+    
+    @x.setter
+    def x(self, new_x: int|float):
+        self.position = Vector2(new_x, self.y)
+    
+    @property
+    def y(self):
+        return self._rect.y
+    
+    @y.setter
+    def y(self, new_y: int|float):
+        self.position = Vector2(self.x, new_y)
 
     def update(self, delta_time: float):
         global ball_speed
+        #self.x += self._direction[0] * ball_speed * delta_time
+        #self.y += self._direction[1] * ball_speed * delta_time
         self.position += self._direction * ball_speed * delta_time
 
     def render(self):
@@ -89,13 +105,13 @@ class Ball:
         return self._rect.colliderect(bracket.hitbox)
     
     def invert_x(self):
-        self._direction *= Vector2(-1, 1)
+        self._direction = Vector2(-self._direction.x, self._direction.y)
     
     def invert_y(self):
-        self._direction *= Vector2(1, -1)
+        self._direction = Vector2(self._direction.x, -self._direction.y)
     
     def invert_direction(self):
-        self._direction *= -1
+        self._direction = Vector2(-self._direction.x, -self._direction.y)
 
 clock = pg.time.Clock()
 
