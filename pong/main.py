@@ -48,6 +48,17 @@ class Bracket:
         self._drawable_rect.y = new_y * display_scale
 
     @property
+    def centery(self):
+        return self._rect.centery
+    
+    @centery.setter
+    def y(self, new_y):
+        global display_scale
+        self._rect.centery = new_y
+        self._drawable_rect.centery = new_y * display_scale
+
+
+    @property
     def hitbox(self):
         return self._rect
 
