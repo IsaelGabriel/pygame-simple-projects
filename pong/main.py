@@ -60,7 +60,7 @@ class Ball:
 
         self._rect = pg.Rect(ball_start_position, ball_size)
         self._drawable_rect = pg.Rect(ball_start_position * display_scale, ball_size * display_scale)
-        self._direction = Vector2(1,1)
+        self._direction = Vector2(-1,1)
 
     @property
     def position(self):
@@ -119,6 +119,9 @@ while not exit:
         player_bracket.y -= bracket_speed * delta_time
     elif keys[pg.K_DOWN] and not keys[pg.K_UP]:
         player_bracket.y += bracket_speed * delta_time
+
+    if ball.collided(player_bracket):
+        ball.invert_x()
 
     ball.update(delta_time)
 
