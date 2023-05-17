@@ -140,8 +140,6 @@ while not exit:
         if event.type == pg.QUIT:
             exit = True
 
-    # object logic
-
     # player bracket movement
 
     keys = pg.key.get_pressed()
@@ -158,7 +156,11 @@ while not exit:
     elif enemy_bracket.centery > ball.position[1] + (ball_size[1]/2):
         enemy_bracket.centery -= bracket_speed * delta_time
 
+    # ball logic
+
     if ball.collided(player_bracket):
+        ball.invert_x()
+    elif ball.collided(enemy_bracket):
         ball.invert_x()
 
     ball.update(delta_time)
