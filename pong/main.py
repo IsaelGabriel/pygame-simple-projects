@@ -22,10 +22,11 @@ class Bracket:
         global display_scale
         self._rect = pg.Rect(initial_position, bracket_size)
         self._drawable_rect = pg.Rect(initial_position * display_scale, bracket_size * display_scale)
+        self._position = initial_position
     
     @property
-    def position(self):
-        return self._rect.topleft
+    def position(self) -> Vector2:
+        return self._position
     
     @position.setter
     def position(self, new_position: Vector2):
@@ -42,6 +43,7 @@ class Bracket:
         elif new_position[1] + self._rect.height > display_size[1]:
             new_position[1] = display_size[1] - self._rect.height
 
+        self._position = new_position
         self._rect.topleft = new_position
         self._drawable_rect.topleft = new_position * display_scale
     
@@ -51,42 +53,30 @@ class Bracket:
         pg.draw.rect(display, bracket_color, self._drawable_rect)
 
     @property
-    def y(self):
-        return self._rect.y
+    def y(self) -> float:
+        return self._position[1]
     
     @y.setter
     def y(self, new_y):
         global display_size
         global display_scale
 
-        if new_y < 0:
-            new_y = 0
-        elif new_y + self._rect.height > display_size[1]:
-            new_y = display_size[1] - self._rect.height
-
-        self._rect.y = new_y
-        self._drawable_rect.y = new_y * display_scale
+        self.position = Vector2(self.position[0], new_y)
 
     @property
-    def centery(self):
-        return self._rect.centery
+    def centery(self) -> float:
+        return self.position[1] + (self._rect.height / 2)
     
     @centery.setter
     def centery(self, new_y):
         global display_size
         global display_scale
 
-        if new_y < self._rect.height / 2:
-            new_y = self._rect.height / 2
-        elif new_y > display_size[1] - self._rect.height / 2:
-            new_y = display_size[1] - self._rect.height / 2
-
-        self._rect.centery = new_y
-        self._drawable_rect.centery = new_y * display_scale
+        self.position = Vector2(self.position[0], new_y - (self._rect.height / 2))
 
 
     @property
-    def hitbox(self):
+    def hitbox(self) -> pg.rect:
         return self._rect
 
 
