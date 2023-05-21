@@ -106,14 +106,16 @@ class Ball:
     def update(self, delta_time: float):
         global ball_acceleration
         global ball_size
+        global bracket_size
         global display_size
 
-        self.position += self._direction * self._speed * delta_time
-
-        if self.position[0] <= 0 or self.position[0] + ball_size.x >= display_size[0]:
+        if self.position[0] < bracket_size[0] or self.position[0] + ball_size.x > display_size[0] - bracket_size[0]:
             self.reset_ball()
+
         if self.position[1] <= 0 or self.position[1] + ball_size.y >= display_size[1]:
             self.invert_y()
+
+        self.position += self._direction * self._speed * delta_time
 
     def render(self):
         global display
@@ -138,12 +140,6 @@ class Ball:
     
     def invert_direction(self):
         self._direction = Vector2(-self._direction.x, -self._direction.y)
-
-    def set_right(self, new_x):
-        global display_scale
-
-        self._rect.right = new_x
-        self._drawable_rect.right = new_x * display_scale
 
     def reset_ball(self):
         global ball_start_position
@@ -192,9 +188,10 @@ while not exit:
     # ball logic
 
     if ball.collided(player_bracket):
+        ball.position = Vector2(bracket_size[0], ball.position[1])
         ball.invert_x()
     elif ball.collided(enemy_bracket):
-        ball.set_right(enemy_bracket.position[0])
+        ball.position = Vector2(display_size[0] - bracket_size[0] - ball_size[0], ball.position[1])
         ball.invert_x()
 
     ball.update(delta_time)
