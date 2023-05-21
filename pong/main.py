@@ -157,10 +157,10 @@ clock = pg.time.Clock()
 
 exit = False
 
-player_bracket = Bracket(Vector2(1, 1))
+player_bracket = Bracket(Vector2(0, 1))
 ball = Ball()
 
-enemy_bracket_start_position = Vector2(display_size[0] - bracket_size[0] - 1, 1)
+enemy_bracket_start_position = Vector2(display_size[0] - bracket_size[0], 1)
 
 enemy_bracket = Bracket(enemy_bracket_start_position)
 
