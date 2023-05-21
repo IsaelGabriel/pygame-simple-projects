@@ -5,13 +5,13 @@ display_size: Vector2 = Vector2(140,100)
 display_scale: int = 5
 
 bracket_size: Vector2 = Vector2(4,16)
-bracket_speed: int = 20
+bracket_speed: int = 30
 bracket_color: str = "#FFFFFF"
 
 ball_start_position: Vector2 = display_size / 2
 ball_size: Vector2 = Vector2(4, 4)
 ball_speed: int = 30
-ball_acceleration: int = 5
+ball_acceleration: int = 1
 ball_color: str = "#FFFFFF"
 
 display = pg.display.set_mode(display_size * display_scale)
