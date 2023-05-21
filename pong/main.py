@@ -61,7 +61,7 @@ class Bracket:
         global display_size
         global display_scale
 
-        self.position = Vector2(self.position[0], new_y)
+        self.position = Vector2(self._position[0], new_y)
 
     @property
     def centery(self) -> float:
