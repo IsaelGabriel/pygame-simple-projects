@@ -153,14 +153,11 @@ clock = pg.time.Clock()
 
 exit = False
 
-player_bracket = Bracket(Vector2(0, 1))
+bracket_1 = Bracket(Vector2(0, 1))
+bracket_2 = Bracket(Vector2(display_size[0] - bracket_size[0], 1))
 ball = Ball()
 
-enemy_bracket_start_position = Vector2(display_size[0] - bracket_size[0], 1)
-
-enemy_bracket = Bracket(enemy_bracket_start_position)
-
-objects = [player_bracket, ball, enemy_bracket]
+objects = [ball, bracket_1, bracket_2]
 
 while not exit:
     delta_time = clock.tick(30)/1000
@@ -173,24 +170,22 @@ while not exit:
 
     keys = pg.key.get_pressed()
     
+    if keys[pg.K_w] and not keys[pg.K_s]:
+        bracket_1.y -= bracket_speed * delta_time
+    elif keys[pg.K_s] and not keys[pg.K_w]:
+        bracket_1.y += bracket_speed * delta_time
+
     if keys[pg.K_UP] and not keys[pg.K_DOWN]:
-        player_bracket.y -= bracket_speed * delta_time
+        bracket_2.y -= bracket_speed * delta_time
     elif keys[pg.K_DOWN] and not keys[pg.K_UP]:
-        player_bracket.y += bracket_speed * delta_time
-
-    # enemy bracket movement
-
-    if enemy_bracket.centery < ball.position[1] + (ball_size[1]/2):
-        enemy_bracket.centery += bracket_speed * delta_time
-    elif enemy_bracket.centery > ball.position[1] + (ball_size[1]/2):
-        enemy_bracket.centery -= bracket_speed * delta_time
+        bracket_2.y += bracket_speed * delta_time
 
     # ball logic
 
-    if ball.collided(player_bracket):
+    if ball.collided(bracket_1):
         ball.position = Vector2(bracket_size[0], ball.position[1])
         ball.invert_x()
-    elif ball.collided(enemy_bracket):
+    elif ball.collided(bracket_2):
         ball.position = Vector2(display_size[0] - bracket_size[0] - ball_size[0], ball.position[1])
         ball.invert_x()
 
